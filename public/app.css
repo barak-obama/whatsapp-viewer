@@ -1,0 +1,63 @@
+@import "stylesheets/jquery-confirm.min.css";
+.message {
+  float: none;
+  clear: both;
+  padding: 3px 9px;
+}
+
+.from_me {
+  float: right;
+  background: green;
+}
+
+.to_me {
+  float: left;
+  background: gray;
+}
+
+.img {
+  max-width: 300px;
+}
+.img img {
+  max-width: 300px;
+}
+
+.video {
+  max-width: 300px;
+}
+.video video {
+  max-width: 300px;
+}
+
+.audio {
+  max-width: 300px;
+}
+.audio audio {
+  max-width: 300px;
+}
+
+.text {
+  max-width: 300px;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+.conversation {
+  background: lightgreen;
+  margin: 0 auto;
+  width: 60%;
+  min-width: 400px;
+  height: 100%;
+  overflow: scroll;
+}
+
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+/*# sourceMappingURL=app.css.map */

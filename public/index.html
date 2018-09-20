@@ -1,0 +1,62 @@
+<html>
+
+<head>
+  <title>Express</title>
+  <link rel="stylesheet" href="app.css">
+
+
+</head>
+
+<body>
+<input id="fileUpload" type="file">
+  <div id="conversation" class="conversation">
+    <div class="message">
+      <div class="from_me">
+        feilwgfliegfli
+      </div>
+    </div>
+
+    <div class="message">
+    <div class="from_me">
+      feilwgfliegfli
+    </div>
+  </div>
+  </div>
+<script src="javascripts/jquery-3.3.1.slim.min.js"></script>
+<script src="javascripts/jquery-confirm.min.js"></script>
+<script src="javascripts/util.js"></script>
+<script src="javascripts/render_conversation.js"></script>
+<script src="javascripts/parser.js"></script>
+<script src="javascripts/jszip.min.js"></script>
+
+<script>
+
+    let test = [
+        {
+            to_me: false,
+            type: 'text',
+            content: 'hello'
+        },
+        {
+            to_me: true,
+            type: 'text',
+            content: 'hello'
+        }
+    ];
+
+    function doit() {
+        document.getElementById('conversation').innerHTML = render(test);
+    }
+
+    function test_parse(event) {
+        parse_convesation(event.target.files[0]).then(render).then(result => {
+            document.getElementById('conversation').innerHTML = result;
+        });
+    }
+
+    document.getElementById("fileUpload").addEventListener("change", test_parse)
+
+</script>
+</body>
+
+</html>
