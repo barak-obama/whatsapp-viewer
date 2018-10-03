@@ -1,3 +1,24 @@
+String.prototype.getExtention = function () {
+    return this.substr(this.lastIndexOf('.') + 1);
+};
+
+String.prototype.regexIndexOf = function(regex, startpos) {
+    let indexOf = this.substring(startpos || 0).search(regex);
+    return (indexOf >= 0) ? (indexOf + (startpos || 0)) : indexOf;
+};
+
+
+String.prototype.regexSplit = function (separator) {
+    let splited = [];
+    let index = 0;
+    do {
+        let i = this.regexIndexOf(separator, index+1);
+        splited.push(this.substring(index, i === -1 ? this.length : i));
+        index = i;
+    } while(index >= 0);
+    return splited;
+};
+
 function parse_convesation(zip_file) {
     let zip = new JSZip();
     return zip.loadAsync( zip_file )
@@ -12,10 +33,11 @@ function parse_convesation(zip_file) {
                     promises.unshift(promise);
                 } else {
                     promise = zip.file(zipEntry.name).async("blob").then(blob => {
+                        let newBlob = new Blob([blob.data], {type:TYPES[zipEntry.name.getExtention()]});
                         return {
                             name: zipEntry.name,
-                            blob: blob,
-                            url: URL.createObjectURL(blob)
+                            blob: newBlob,
+                            url: URL.createObjectURL(newBlob)
                         }
                     });
                     promises.push(promise);
@@ -50,9 +72,13 @@ function parse_convesation(zip_file) {
         });
 }
 
+
+
+
 function chat_parser(chat, attachments) {
 
-    return chat.split('\n').map( messages => {
+    // noinspection JSAnnotator
+    return chat.regexSplit(/\[([0-9]{2})\/([0-9]){2}\/([0-9]){4}, ([0-9]{1,2}):([0-9]{2}):([0-9]{2})]/).map( messages => {
         let time_start = messages.indexOf('[') + 1;
         let time_end = messages.indexOf(']');
         let time = parse_time(messages.substring(time_start, time_end));
@@ -96,7 +122,8 @@ function parse_time(time) {
 const TYPES = {
     'jpg': 'img',
     'mp4': 'video',
-    'opus': 'audio'
+    'opus': 'audio',
+    'pdf': 'application/pdf'
 };
 
 function parse_content(content, attachments) {

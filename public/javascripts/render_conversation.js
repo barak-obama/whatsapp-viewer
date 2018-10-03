@@ -8,9 +8,14 @@ function render(conversation) {
 
 function render_message(message, me) {
 
-    return `<div class="message">
-      <div class="${message.sender === me ? 'from_me' : 'to_me'} ${message.type}">
+    return `<div class="message-wrapper">
+      <div class="message-content">
+      <div class="${message.sender === me ? 'from_me' : 'to_me'} ${message.type} message">
         ${content_render[message.type](message.content)}
+      </div>
+      <div class="timestapm">
+            ${message.time}
+        </div>
       </div>
     </div>`;
 }
@@ -20,6 +25,7 @@ function ask_for_identity(senders){
     return new Promise(function (resolve, reject) {
 
         let buttons = {};
+
         senders.forEach(sender => {
            buttons[sender] = function(){
                resolve(sender);
@@ -48,6 +54,10 @@ content_render['audio'] = content => {
 
 content_render['video'] = content => {
     return `<video controls>
-  <source src="${content}" type="video/mp4">
+  <source src="${content}" type="video/mp4"/>
 </video>`;
+};
+
+content_render['application/pdf'] = content => {
+    return content;
 };
